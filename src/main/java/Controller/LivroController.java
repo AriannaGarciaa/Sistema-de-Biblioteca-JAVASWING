@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.LivroModel;
 import Repository.LivroRepository;
 import View.LivroView;
 
@@ -16,11 +17,11 @@ public class LivroController {
         livroRepository.salvar(livro);
     }
 
-    public List<Livro> listarLivros() {
+    public List<LivroModel> listarLivros() {
         return livroRepository.listar();
     }
 
-    public void removerLivro(Long id) {
+    public void removerLivro(int id) {
         livroRepository.remover(id);
     }
 }

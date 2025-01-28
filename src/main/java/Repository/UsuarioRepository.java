@@ -9,18 +9,11 @@ import java.util.List;
 
 public class UsuarioRepository {
 
-    private static UsuarioRepository instance;
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
-    public UsuarioRepository() {
-        entityManager = JpaUtil.getEntityManager();
-    }
-
-    public static UsuarioRepository getInstance() {
-        if (instance == null) {
-            instance = new UsuarioRepository();
-        }
-        return instance;
+    // Construtor que recebe o EntityManager
+    public UsuarioRepository(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
     // Criar um usuário (CREATE)
@@ -52,7 +45,7 @@ public class UsuarioRepository {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
-            entityManager.merge(usuario); // Certifique-se de que usuario está sendo reconhecido
+            entityManager.merge(usuario); // Atualiza o usuário se já existe
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();

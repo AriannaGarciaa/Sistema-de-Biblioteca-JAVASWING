@@ -1,6 +1,6 @@
 package Controller;
 
-import Model.Emprestimo;
+import Model.EmprestimoModel;
 import Repository.EmprestimoRepository;
 
 import java.util.Date;
@@ -11,7 +11,7 @@ public class EmprestimoController {
 
     // Registrar um novo empréstimo
     public void registrarEmprestimo(int usuarioId, int livroId) {
-        Emprestimo emprestimo = new Emprestimo();
+        EmprestimoModel emprestimo = new EmprestimoModel();
         emprestimo.setId(emprestimoRepository.listar().size() + 1); // ID baseado no tamanho da lista
         emprestimo.setUsuarioId(usuarioId);
         emprestimo.setLivroId(livroId);
@@ -28,7 +28,7 @@ public class EmprestimoController {
     }
 
     // Listar todos os empréstimos
-    public List<Emprestimo> listarEmprestimos() {
+    public List<EmprestimoModel> listarEmprestimos() {
         return emprestimoRepository.listar();
     }
 

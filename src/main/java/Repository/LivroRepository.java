@@ -1,5 +1,5 @@
 package Repository;
-
+import Model.LivroModel;
 import View.LivroView;
 import org.hibernate.Cache;
 import org.hibernate.Session;
@@ -9,6 +9,7 @@ import java.util.List;
 
 public class LivroRepository {
     public void salvar(LivroView livro) {
+        Cache HibernateUtil = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             session.saveOrUpdate(livro);
@@ -16,17 +17,18 @@ public class LivroRepository {
         }
     }
 
-    public List<Livro> listar() {
+    public List<LivroModel> listar() {
         Cache HibernateUtil = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("from Livro", Livro.class).list();
+            return session.createQuery("from Livro", LivroModel.class).list();
         }
     }
 
-    public void remover(Long id) {
+    public void remover(int id) {
+        Cache HibernateUtil = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            Livro livro = session.get(Livro.class, id);
+            LivroModel livro = session.get(LivroModel.class, id);
             if (livro != null) session.delete(livro);
             transaction.commit();
         }

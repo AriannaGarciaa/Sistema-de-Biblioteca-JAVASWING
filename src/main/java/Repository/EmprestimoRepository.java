@@ -6,22 +6,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmprestimoRepository {
-    private List<Emprestimo> emprestimos = new ArrayList<>();
+    private List<EmprestimoModel> emprestimos = new ArrayList<>();
 
     // Salvar empréstimo
-    public void salvar(Emprestimo emprestimo) {
+    public void salvar(EmprestimoModel emprestimo) {
         emprestimos.add(emprestimo);
     }
 
     // Listar todos os empréstimos
-    public List<Emprestimo> listar() {
+    public List<EmprestimoModel> listar() {
         return emprestimos;
     }
 
     // Buscar empréstimos por ID do usuário
-    public List<Emprestimo> buscarPorUsuarioId(int usuarioId) {
-        List<Emprestimo> resultado = new ArrayList<>();
-        for (Emprestimo e : emprestimos) {
+    public List<EmprestimoModel> buscarPorUsuarioId(int usuarioId) {
+        List<EmprestimoModel> resultado = new ArrayList<>();
+        for (EmprestimoModel e : emprestimos) {
             if (e.getUsuarioId() == usuarioId) {
                 resultado.add(e);
             }
@@ -31,7 +31,7 @@ public class EmprestimoRepository {
 
     // Atualizar status de devolução
     public void atualizarDevolucao(int id, boolean devolvido) {
-        for (Emprestimo e : emprestimos) {
+        for (EmprestimoModel e : emprestimos) {
             if (e.getId() == id) {
                 e.setDevolvido(devolvido);
             }

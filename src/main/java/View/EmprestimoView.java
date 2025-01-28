@@ -1,7 +1,7 @@
 package View;
 
 import Controller.EmprestimoController;
-import Model.Emprestimo;
+import Model.EmprestimoModel;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -51,11 +51,11 @@ public class EmprestimoView {
     }
 
     private void listarEmprestimos() {
-        List<Emprestimo> emprestimos = emprestimoController.listarEmprestimos();
+        List<EmprestimoModel> emprestimos = emprestimoController.listarEmprestimos();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
         System.out.println("\n--- Lista de Empréstimos ---");
-        for (Emprestimo e : emprestimos) {
+        for (EmprestimoModel e : emprestimos) {
             System.out.println("ID: " + e.getId() +
                     ", Usuário ID: " + e.getUsuarioId() +
                     ", Livro ID: " + e.getLivroId() +

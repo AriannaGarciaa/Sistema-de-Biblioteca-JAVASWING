@@ -10,6 +10,15 @@ public class EmprestimoModel {
     private Date dataDevolucao;
     private boolean devolvido;
 
+    public EmprestimoModel() {
+        this.id = id;
+        this.usuarioId = usuarioId;
+        this.livroId = livroId;
+        this.dataEmprestimo = dataEmprestimo;
+        this.dataDevolucao = dataDevolucao;
+        this.devolvido = devolvido;
+    }
+
     // Getters e Setters
     public int getId() {
         return id;
