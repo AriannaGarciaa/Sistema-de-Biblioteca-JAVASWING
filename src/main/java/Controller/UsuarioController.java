@@ -1,6 +1,8 @@
 package Controller;
 
+import Model.UsuarioModel;
 import Repository.UsuarioRepository;
+import java.util.List;
 
 public class UsuarioController {
 
@@ -11,21 +13,27 @@ public class UsuarioController {
     }
 
     public void criarUsuario(String nome, String sexo, String celular, String email) {
-        Usuario usuario = new Usuario(nome, sexo, celular, email);
+        UsuarioModel usuario = new UsuarioModel( nome, sexo, celular, email);
         usuarioRepository.salvar(usuario);
         System.out.println("Usuário cadastrado com sucesso!");
     }
 
-    public Usuario buscarUsuarioPorId(Long id) {
-        return usuarioRepository.buscarPorId(id);
+    public UsuarioModel buscarUsuarioPorId(int id) {
+        UsuarioModel usuario = usuarioRepository.buscarPorId(id);
+        if (usuario != null) {
+            return usuario;
+        } else {
+            System.out.println("Usuário não encontrado!");
+            return null;
+        }
     }
 
-    public List<Usuario> listarUsuarios() {
+    public List<UsuarioModel> listarUsuarios() {
         return usuarioRepository.listarTodos();
     }
 
-    public void atualizarUsuario(Long id, String nome, String sexo, String celular, String email) {
-        Usuario usuario = usuarioRepository.buscarPorId(id);
+    public void atualizarUsuario(int id, String nome, String sexo, String celular, String email) {
+        UsuarioModel usuario = usuarioRepository.buscarPorId(id);
         if (usuario != null) {
             usuario.setNome(nome);
             usuario.setSexo(sexo);
@@ -38,8 +46,13 @@ public class UsuarioController {
         }
     }
 
-    public void deletarUsuario(Long id) {
-        usuarioRepository.deletar(id);
-        System.out.println("Usuário deletado com sucesso!");
+    public void deletarUsuario(int id) {
+        UsuarioModel usuario = usuarioRepository.buscarPorId(id);
+        if (usuario != null) {
+            usuarioRepository.deletar(id);
+            System.out.println("Usuário deletado com sucesso!");
+        } else {
+            System.out.println("Usuário não encontrado!");
+        }
     }
 }

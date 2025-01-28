@@ -1,6 +1,6 @@
 package Repository;
 
-import Model.Emprestimo;
+import Model.EmprestimoModel;
 
 import java.util.ArrayList;
 import java.util.List;

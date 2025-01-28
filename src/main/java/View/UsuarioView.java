@@ -1,7 +1,7 @@
 package View;
 
 import Controller.UsuarioController;
-
+import Model.UsuarioModel;
 import java.util.Scanner;
 
 public class UsuarioView {
@@ -58,7 +58,7 @@ public class UsuarioView {
 
     private void listarUsuarios() {
         System.out.println("\n--- Lista de Usuários ---");
-        for (UsuarioView usuario : usuarioController.listarUsuarios()) {
+        for (UsuarioModel usuario : usuarioController.listarUsuarios()) {
             System.out.println(usuario);
         }
     }
@@ -68,7 +68,7 @@ public class UsuarioView {
         id = (int) scanner.nextLong();
         scanner.nextLine();
 
-        UsuarioView usuario = usuarioController.buscarUsuarioPorId(id);
+        UsuarioModel usuario = usuarioController.buscarUsuarioPorId(id);
         if (usuario != null) {
             System.out.println(usuario);
         } else {
@@ -78,7 +78,7 @@ public class UsuarioView {
 
     private void atualizarUsuario(Scanner scanner) {
         System.out.print("Digite o ID do usuário: ");
-        Long id = scanner.nextLong();
+        int id = (int) scanner.nextLong();
         scanner.nextLine(); // Consumir a quebra de linha
 
         System.out.print("Novo Nome: ");
@@ -90,7 +90,7 @@ public class UsuarioView {
         System.out.print("Novo Email: ");
         String email = scanner.nextLine();
 
-        usuarioController.atualizarUsuario(id, nome, sexo, celular, email);
+        usuarioController.atualizarUsuario(Math.toIntExact(id), nome, sexo, celular, email);
     }
 
     private void deletarUsuario(Scanner scanner) {
@@ -98,7 +98,7 @@ public class UsuarioView {
         Long id = scanner.nextLong();
         scanner.nextLine();
 
-        usuarioController.deletarUsuario(id);
+        usuarioController.deletarUsuario(Math.toIntExact(id));
     }
 }
 

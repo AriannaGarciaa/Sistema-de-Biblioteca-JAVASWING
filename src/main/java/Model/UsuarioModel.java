@@ -1,12 +1,19 @@
 package Model;
 
-public class UsuarioController {
+public class UsuarioModel {
     private int id;
     private String nome;
     private String sexo;
     private String celular;
     private String email;
 
+    public UsuarioModel(String nome, String sexo, String celular, String email) {
+        this.id = id;
+        this.nome = nome;
+        this.sexo = sexo;
+        this.celular = celular;
+        this.email = email;
+    }
 
     public int getId() {
         return id;
