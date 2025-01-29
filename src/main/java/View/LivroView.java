@@ -1,11 +1,14 @@
 package View;
 
+import Controller.LivroController;
+import Model.LivroModel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class LivroView extends Jframe{
+public class LivroView extends JFrame {
     private JTextField tituloField;
     private JTextField temaField;
     private JTextField autorField;
@@ -42,13 +45,14 @@ public class LivroView extends Jframe{
         quantidadeField = new JTextField();
         add(quantidadeField);
 
-        JButton salvarButton = new JButton("Salvar");
-        salvarButton.addActionListener(e -> salvarLivro());
-        add(salvarButton);
+        JButton cadastrarButton = new JButton("Salvar");
+        cadastrarButton.addActionListener(e -> salvarLivro());
+        add(cadastrarButton);
     }
 
+
     private void salvarLivro() {
-        Livro livro = new Livro();
+        LivroModel livro = new LivroModel();
         livro.setTitulo(tituloField.getText());
         livro.setTema(temaField.getText());
         livro.setAutor(autorField.getText());

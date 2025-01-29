@@ -1,19 +1,34 @@
 package Repository;
 
 import Model.UsuarioModel;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.TypedQuery;
+import jakarta.persistence.*;
 
 import java.util.List;
 
 public class UsuarioRepository {
+    private static UsuarioRepository instance;
+    protected static EntityManager entityManager;
 
-    private final EntityManager entityManager;
-
-    // Construtor que recebe o EntityManager
+    // Construtor
     public UsuarioRepository(EntityManager entityManager) {
-        this.entityManager = entityManager;
+        UsuarioRepository.entityManager = getEntityManager();
+    }
+
+    // Método para criar e obter o EntityManager
+    private EntityManager getEntityManager() {
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("crudHibernatePU");
+        if (entityManager == null) {
+            entityManager = factory.createEntityManager();
+        }
+        return entityManager;
+    }
+
+    // Método Singleton para obter uma instância
+    public static UsuarioRepository getInstance() {
+        if (instance == null) {
+            instance = new UsuarioRepository(entityManager);  // Inicializa a instância
+        }
+        return instance;
     }
 
     // Criar um usuário (CREATE)

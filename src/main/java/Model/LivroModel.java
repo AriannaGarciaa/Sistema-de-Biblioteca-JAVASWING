@@ -12,7 +12,7 @@ public class LivroModel {
     private Date dataPublicacao;
     private int quantidadeDisponivel;
 
-    public LivroModel(int id, String titulo, String tema, String autor, String isbn, Date dataPublicacao, int quantidadeDisponivel) {
+    public LivroModel() {
         this.id = id;
         this.titulo = titulo;
         this.tema = tema;

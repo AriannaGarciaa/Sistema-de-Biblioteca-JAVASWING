@@ -2,7 +2,6 @@ package Controller;
 
 import Model.LivroModel;
 import Repository.LivroRepository;
-import View.LivroView;
 
 import java.util.List;
 
@@ -13,7 +12,7 @@ public class LivroController {
         this.livroRepository = new LivroRepository();
     }
 
-    public void salvarLivro(LivroView livro) {
+    public void salvarLivro(LivroModel livro) {
         livroRepository.salvar(livro);
     }
 
@@ -24,4 +23,5 @@ public class LivroController {
     public void removerLivro(int id) {
         livroRepository.remover(id);
     }
+
 }
