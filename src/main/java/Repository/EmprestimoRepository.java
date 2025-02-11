@@ -1,40 +1,45 @@
 package Repository;
 
 import Model.EmprestimoModel;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Persistence;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class EmprestimoRepository {
-    private List<EmprestimoModel> emprestimos = new ArrayList<>();
+    private EntityManager em;
 
-    // Salvar empréstimo
+    public EmprestimoRepository(EntityManager entityManager) {
+        this.em = entityManager;
+    }
+
+    // Métodos CRUD
     public void salvar(EmprestimoModel emprestimo) {
-        emprestimos.add(emprestimo);
+        em.getTransaction().begin();
+        em.persist(emprestimo);
+        em.getTransaction().commit();
     }
 
-    // Listar todos os empréstimos
+    public EmprestimoModel buscarPorId(int id) {
+        return em.find(EmprestimoModel.class, id);
+    }
+
     public List<EmprestimoModel> listar() {
-        return emprestimos;
+        return em.createQuery("FROM EmprestimoModel", EmprestimoModel.class).getResultList();
     }
 
-    // Buscar empréstimos por ID do usuário
-    public List<EmprestimoModel> buscarPorUsuarioId(int usuarioId) {
-        List<EmprestimoModel> resultado = new ArrayList<>();
-        for (EmprestimoModel e : emprestimos) {
-            if (e.getUsuarioId() == usuarioId) {
-                resultado.add(e);
-            }
-        }
-        return resultado;
+    public void atualizar(EmprestimoModel emprestimo) {
+        em.getTransaction().begin();
+        em.merge(emprestimo);
+        em.getTransaction().commit();
     }
 
-    // Atualizar status de devolução
+    // Método para atualizar devolução
     public void atualizarDevolucao(int id, boolean devolvido) {
-        for (EmprestimoModel e : emprestimos) {
-            if (e.getId() == id) {
-                e.setDevolvido(devolvido);
-            }
+        EmprestimoModel emprestimo = buscarPorId(id);
+        if (emprestimo != null) {
+            emprestimo.setDevolvido(devolvido);
+            atualizar(emprestimo);
         }
     }
 }

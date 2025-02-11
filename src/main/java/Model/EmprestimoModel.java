@@ -1,19 +1,36 @@
 package Model;
 
+import jakarta.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table(name = "emprestimos")
 public class EmprestimoModel {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private int usuarioId;
-    private int livroId;
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private UsuarioModel usuario;
+
+    @ManyToOne
+    @JoinColumn(name = "livro_id", nullable = false)
+    private LivroModel livro;
+
     private Date dataEmprestimo;
     private Date dataDevolucao;
     private boolean devolvido;
 
+    // Construtor padrão
     public EmprestimoModel() {
-        this.id = id;
-        this.usuarioId = usuarioId;
-        this.livroId = livroId;
+    }
+
+    // Construtor com parâmetros
+    public EmprestimoModel(UsuarioModel usuario, LivroModel livro, Date dataEmprestimo, Date dataDevolucao, boolean devolvido) {
+        this.usuario = usuario;
+        this.livro = livro;
         this.dataEmprestimo = dataEmprestimo;
         this.dataDevolucao = dataDevolucao;
         this.devolvido = devolvido;
@@ -28,20 +45,20 @@ public class EmprestimoModel {
         this.id = id;
     }
 
-    public int getUsuarioId() {
-        return usuarioId;
+    public UsuarioModel getUsuario() {
+        return usuario;
     }
 
-    public void setUsuarioId(int usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setUsuario(UsuarioModel usuario) {
+        this.usuario = usuario;
     }
 
-    public int getLivroId() {
-        return livroId;
+    public LivroModel getLivro() {
+        return livro;
     }
 
-    public void setLivroId(int livroId) {
-        this.livroId = livroId;
+    public void setLivro(LivroModel livro) {
+        this.livro = livro;
     }
 
     public Date getDataEmprestimo() {
