@@ -3,56 +3,62 @@ package Repository;
 import Model.UsuarioModel;
 import jakarta.persistence.*;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UsuarioRepository {
-    private static UsuarioRepository instance;
-    protected static EntityManager entityManager;
+    protected EntityManager entityManager;
 
     // Construtor
     public UsuarioRepository(EntityManager entityManager) {
-        UsuarioRepository.entityManager = getEntityManager();
+        this.entityManager = entityManager; // Use o entityManager passado
     }
 
-    // Método para criar e obter o EntityManager
-    private EntityManager getEntityManager() {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("crudHibernatePU");
-        if (entityManager == null) {
-            entityManager = factory.createEntityManager();
-        }
-        return entityManager;
-    }
-
-    // Método Singleton para obter uma instância
-    public static UsuarioRepository getInstance() {
-        if (instance == null) {
-            instance = new UsuarioRepository(entityManager);  // Inicializa a instância
-        }
-        return instance;
-    }
 
     // Criar um usuário (CREATE)
-    public void salvar(UsuarioModel usuario) {
-        EntityTransaction transaction = entityManager.getTransaction();
+    public String salvar(UsuarioModel usuario) throws SQLException {
         try {
-            transaction.begin();
+            entityManager.getTransaction().begin();
             entityManager.persist(usuario);
-            transaction.commit();
+            entityManager.getTransaction().commit();
+            return "Salvo com Sucesso.";
         } catch (Exception e) {
-            transaction.rollback();
-            e.printStackTrace();
+            entityManager.getTransaction().rollback();
+            return e.getMessage();
         }
     }
 
     // Buscar um usuário por ID (READ)
     public UsuarioModel buscarPorId(int id) {
-        return entityManager.find(UsuarioModel.class, id);
+        UsuarioModel usuario = new UsuarioModel();
+        try{
+            usuario = entityManager.find(UsuarioModel.class, id);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return usuario;
+    }
+
+    public String remover(UsuarioModel usuario){
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.remove(usuario);
+            entityManager.getTransaction().commit();
+            return "Removido com sucesso!";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
     }
 
     // Listar todos os usuários (READ)
     public List<UsuarioModel> listarTodos() {
-        TypedQuery<UsuarioModel> query = entityManager.createQuery("SELECT u FROM UsuarioModel u", UsuarioModel.class);
-        return query.getResultList();
+        try{
+            List<UsuarioModel> usuarios = entityManager.createQuery("from UsuarioModel").getResultList();
+            return usuarios;
+        }catch (Exception e){
+            return new ArrayList<>();
+        }
     }
 
     // Atualizar um usuário (UPDATE)

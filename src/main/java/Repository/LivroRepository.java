@@ -3,52 +3,59 @@ package Repository;
 import Model.LivroModel;
 import jakarta.persistence.*;
 
+import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 
 public class LivroRepository {
     private static LivroRepository instance;
-    protected static EntityManager entityManager;
+    protected EntityManager entityManager;
 
     // Construtor
-    public LivroRepository() {
-        LivroRepository.entityManager = getEntityManager();
-    }
-
-    // Método para criar e obter o EntityManager
-    private EntityManager getEntityManager() {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("crudHibernatePU");
-        if (entityManager == null) {
-            entityManager = factory.createEntityManager();
-        }
-        return entityManager;
-    }
-
-    // Método Singleton para obter uma instância
-    public static LivroRepository getInstance() {
-        if (instance == null) {
-            instance = new LivroRepository();  // Inicializa a instância
-        }
-        return instance;
+    public LivroRepository(EntityManager entityManager) {
+        this.entityManager = entityManager; // Use o entityManager passado
     }
 
     // Criar um livro (CREATE)
-    public void salvar(LivroModel livro) {
-        EntityTransaction transaction = entityManager.getTransaction();
+    public String salvar(LivroModel livro) throws SQLException {
         try {
-            transaction.begin();
+            entityManager.getTransaction().begin();
             entityManager.persist(livro);
-            transaction.commit();
+            entityManager.getTransaction().commit();
+            return "Salvo com Sucesso.";
         } catch (Exception e) {
-            transaction.rollback();
-            e.printStackTrace();
+            entityManager.getTransaction().rollback();
+            return e.getMessage();
         }
     }
 
     // Buscar um livro por ID (READ)
     public LivroModel buscarPorId(int id) {
-        return entityManager.find(LivroModel.class, id);
+        LivroModel livro = new LivroModel();
+        try {
+            livro = entityManager.find(LivroModel.class, id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return livro;
     }
 
+    // Listar todos os livros (READ)
+    public List<LivroModel> listarTodos() {
+        TypedQuery<LivroModel> query = entityManager.createQuery("SELECT l FROM LivroModel l", LivroModel.class);
+        return query.getResultList();
+    }
+
+    // Buscar livros disponíveis (quantidadeDisponivel > 0)
+    public List<LivroModel> buscarLivrosDisponiveis() {
+        try {
+            return entityManager.createQuery("SELECT l FROM LivroModel l WHERE l.quantidadeDisponivel > 0", LivroModel.class)
+                    .getResultList();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return Collections.emptyList(); // Retorna uma lista vazia em caso de erro
+        }
+    }
 
     // Atualizar um livro (UPDATE)
     public void atualizar(LivroModel livro) {
@@ -64,8 +71,7 @@ public class LivroRepository {
     }
 
     // Deletar um livro por ID (DELETE)
-
-    public void remover(int id) {
+    public void deletar(int id) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
@@ -78,10 +84,5 @@ public class LivroRepository {
             transaction.rollback();
             e.printStackTrace();
         }
-    }
-
-    public List<LivroModel> listar() {
-        TypedQuery<LivroModel> query = entityManager.createQuery("SELECT l FROM LivroModel l", LivroModel.class);
-        return query.getResultList();
     }
 }

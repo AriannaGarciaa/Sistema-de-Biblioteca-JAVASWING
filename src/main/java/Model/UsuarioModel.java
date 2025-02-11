@@ -1,20 +1,34 @@
 package Model;
 
+import jakarta.persistence.*;
+import java.util.List;
+
+@Entity
+@Table(name = "usuarios")
 public class UsuarioModel {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String nome;
     private String sexo;
     private String celular;
     private String email;
 
+    @OneToMany(mappedBy = "usuario")
+    private List<EmprestimoModel> emprestimos;
+
+    // Construtor
+    public UsuarioModel() {
+    }
+
     public UsuarioModel(String nome, String sexo, String celular, String email) {
-        this.id = id;
         this.nome = nome;
         this.sexo = sexo;
         this.celular = celular;
         this.email = email;
     }
 
+    // Getters e Setters
     public int getId() {
         return id;
     }
@@ -54,5 +68,12 @@ public class UsuarioModel {
     public void setEmail(String email) {
         this.email = email;
     }
-}
 
+    public List<EmprestimoModel> getEmprestimos() {
+        return emprestimos;
+    }
+
+    public void setEmprestimos(List<EmprestimoModel> emprestimos) {
+        this.emprestimos = emprestimos;
+    }
+}

@@ -3,27 +3,20 @@ package Controller;
 import Model.UsuarioModel;
 import Repository.UsuarioRepository;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.Persistence;
+import jakarta.persistence.TypedQuery;
 
-import java.util.Collections;
+import java.sql.SQLException;
 import java.util.List;
 
-
 public class UsuarioController {
-
     private final UsuarioRepository usuarioRepository;
     private final EntityManager entityManager;
 
-    // Construtor com tratamento de exceções para garantir a criação do repositório
-    // Construtor atualizado
-    public UsuarioController() {
-        // Criação do EntityManager
-        this.entityManager = Persistence.createEntityManagerFactory("suaPU").createEntityManager();
-        // Passando o EntityManager para o Repository
+    public UsuarioController(EntityManager entityManager) {
+        this.entityManager = entityManager;
         this.usuarioRepository = new UsuarioRepository(entityManager);
     }
 
-    // Método para criar um novo usuário com tratamento de exceções
     public void criarUsuario(String nome, String sexo, String celular, String email) {
         try {
             UsuarioModel usuario = new UsuarioModel(nome, sexo, celular, email);
@@ -34,7 +27,10 @@ public class UsuarioController {
         }
     }
 
-    // Método para buscar um usuário por ID, com verificação e mensagem caso não seja encontrado
+    public String salvar(UsuarioModel usuario) throws SQLException {
+        return usuarioRepository.salvar(usuario);
+    }
+
     public UsuarioModel buscarUsuarioPorId(int id) {
         try {
             UsuarioModel usuario = usuarioRepository.buscarPorId(id);
@@ -50,22 +46,10 @@ public class UsuarioController {
         }
     }
 
-    // Método para listar todos os usuários com verificação de lista vazia
-    public List<UsuarioModel> listarUsuarios() {
-        try {
-            List<UsuarioModel> usuarios = usuarioRepository.listarTodos();
-            if (usuarios == null || usuarios.isEmpty()) {
-                System.out.println("Nenhum usuário encontrado.");
-                return Collections.emptyList(); // Retorna uma lista vazia
-            }
-            return usuarios;
-        } catch (Exception e) {
-            System.out.println("Erro ao listar usuários: " + e.getMessage());
-            return Collections.emptyList(); // Retorna uma lista vazia em caso de erro
-        }
+    public List<UsuarioModel> listarTodos() {
+        return usuarioRepository.listarTodos();
     }
 
-    // Método para atualizar um usuário, com verificação de existência e tratamento de exceções
     public void atualizarUsuario(int id, String nome, String sexo, String celular, String email) {
         try {
             UsuarioModel usuario = usuarioRepository.buscarPorId(id);
@@ -84,8 +68,7 @@ public class UsuarioController {
         }
     }
 
-    // Método para deletar um usuário, com verificação de existência e tratamento de exceções
-    public void deletarUsuario(int id) {
+    public Object deletarUsuario(int id) {
         try {
             UsuarioModel usuario = usuarioRepository.buscarPorId(id);
             if (usuario != null) {
@@ -97,5 +80,21 @@ public class UsuarioController {
         } catch (Exception e) {
             System.out.println("Erro ao deletar usuário: " + e.getMessage());
         }
+        return null;
     }
+    // Método para contar quantos livros o usuário pegou emprestado
+    public int contarLivrosEmprestados(int usuarioId) {
+        // Consulta JPQL para contar o número de empréstimos do usuário
+        String jpql = "SELECT COUNT(e) FROM EmprestimoModel e WHERE e.usuario.id = :usuarioId AND e.devolvido = false";
+        TypedQuery<Long> query = entityManager.createQuery(jpql, Long.class);
+        query.setParameter("usuarioId", usuarioId);
+
+        Long count = query.getSingleResult();
+        return count != null ? count.intValue() : 0;
+    }
+    public String remover (Long idUsuarioSelecionado) throws SQLException {
+        UsuarioModel usuario = usuarioRepository.buscarPorId(Math.toIntExact(idUsuarioSelecionado));
+        return usuarioRepository.remover(usuario);
+    }
+
 }

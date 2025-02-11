@@ -1,9 +1,14 @@
 package Model;
 
+import jakarta.persistence.*;
 import java.util.Date;
+import java.util.List;
 
-
+@Entity
+@Table(name = "livros")
 public class LivroModel {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String titulo;
     private String tema;
@@ -12,8 +17,14 @@ public class LivroModel {
     private Date dataPublicacao;
     private int quantidadeDisponivel;
 
+    @OneToMany(mappedBy = "livro")
+    private List<EmprestimoModel> emprestimos;
+
+    // Construtor
     public LivroModel() {
-        this.id = id;
+    }
+
+    public LivroModel(String titulo, String tema, String autor, String isbn, Date dataPublicacao, int quantidadeDisponivel) {
         this.titulo = titulo;
         this.tema = tema;
         this.autor = autor;
@@ -22,6 +33,7 @@ public class LivroModel {
         this.quantidadeDisponivel = quantidadeDisponivel;
     }
 
+    // Getters e Setters
     public int getId() {
         return id;
     }
@@ -76,5 +88,13 @@ public class LivroModel {
 
     public void setQuantidadeDisponivel(int quantidadeDisponivel) {
         this.quantidadeDisponivel = quantidadeDisponivel;
+    }
+
+    public List<EmprestimoModel> getEmprestimos() {
+        return emprestimos;
+    }
+
+    public void setEmprestimos(List<EmprestimoModel> emprestimos) {
+        this.emprestimos = emprestimos;
     }
 }
