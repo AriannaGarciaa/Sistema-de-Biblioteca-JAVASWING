@@ -11,6 +11,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 import javax.swing.*;
+import javax.swing.text.MaskFormatter;
 import java.awt.event.*;
 import java.sql.Date;
 import java.text.ParseException;
@@ -42,6 +43,17 @@ public class CadastrarEmprestimo extends JFrame {
         this.emprestimoController = new EmprestimoController(em);
         this.usuarioController = new UsuarioController(em);
         this.livroController = new LivroController(em);
+
+        try{
+            MaskFormatter maskData = new MaskFormatter("##/##/####");
+            maskData.setPlaceholderCharacter('_');
+
+            formattedTextFieldDataDevolucao = new JFormattedTextField(maskData);
+            formattedTextFieldDataEmprestimo = new JFormattedTextField(maskData);
+        }catch (ParseException e){
+            JOptionPane.showMessageDialog(null, "Erro ao aplicar mascara nos campos de data. ");
+            e.printStackTrace();
+        }
 
         salvarButton.addActionListener(new ActionListener() {
             @Override

@@ -52,22 +52,38 @@ public class EmprestimoController {
         }
     }
 
-
     // Listar todos os empréstimos
     public List<EmprestimoModel> listarEmprestimos() {
-        return emprestimoRepository.listar();
+        return emprestimoRepository.listarTodos();
     }
 
     // Devolver um livro
     public void devolverEmprestimo(int emprestimoId) {
         EmprestimoModel emprestimo = emprestimoRepository.buscarPorId(emprestimoId);
         if (emprestimo != null) {
+            // Definir que o livro foi devolvido
             emprestimo.setDevolvido(true);
-            emprestimoRepository.salvar(emprestimo);
-            System.out.println("Livro devolvido com sucesso!");
+
+            // Calcular a data de devolução
+            Date dataDevolucao = new Date(); // data atual
+            emprestimo.setDataDevolucao(dataDevolucao); // atualiza a data de devolução
+
+            // Salvar o empréstimo com a devolução atualizada
+            emprestimoRepository.atualizar(emprestimo);
+            System.out.println("Livro devolvido com sucesso! Data de devolução: " + dataDevolucao);
         } else {
             System.out.println("Empréstimo não encontrado!");
         }
     }
 
+    // Buscar um empréstimo por ID
+    public EmprestimoModel buscarPorId(int id) {
+        EmprestimoModel emprestimo = emprestimoRepository.buscarPorId(id);
+        if (emprestimo != null) {
+            return emprestimo;
+        } else {
+            System.out.println("Empréstimo não encontrado com ID: " + id);
+            return null;
+        }
+    }
 }

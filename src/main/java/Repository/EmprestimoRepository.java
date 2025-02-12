@@ -24,7 +24,8 @@ public class EmprestimoRepository {
         return em.find(EmprestimoModel.class, id);
     }
 
-    public List<EmprestimoModel> listar() {
+    // Método para listar todos os empréstimos cadastrados
+    public List<EmprestimoModel> listarTodos() {
         return em.createQuery("FROM EmprestimoModel", EmprestimoModel.class).getResultList();
     }
 
@@ -41,5 +42,12 @@ public class EmprestimoRepository {
             emprestimo.setDevolvido(devolvido);
             atualizar(emprestimo);
         }
+    }
+
+    // Método para editar o empréstimo (pode ser usado para atualizar os campos do empréstimo)
+    public void editar(EmprestimoModel emprestimo) {
+        em.getTransaction().begin();
+        em.merge(emprestimo);  // Atualiza os dados do empréstimo no banco de dados
+        em.getTransaction().commit();
     }
 }

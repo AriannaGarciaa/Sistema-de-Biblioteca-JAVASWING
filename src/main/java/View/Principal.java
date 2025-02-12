@@ -82,8 +82,10 @@ public class Principal extends JFrame {
         JMenu emprestimo = new JMenu("Emprestimo de Livros");
         JMenuItem emprestar = new JMenuItem("Emprestar Livro");
         JMenuItem devolver = new JMenuItem("Devolver Livro");
+        JMenuItem listar = new JMenuItem("Listar Emprestimos Cadastrados");
         emprestimo.add(emprestar);
         emprestimo.add(devolver);
+        emprestimo.add(listar);
 
         JMenu manterUsuario = new JMenu("Manter Usuario");
         JMenuItem cadastrarUsuario = new JMenuItem("Cadastrar Usuario");
@@ -147,8 +149,6 @@ public class Principal extends JFrame {
                     // Ordenar a lista de livros por título
                     livrosDisponiveis.sort(Comparator.comparing(LivroModel::getTitulo));
 
-                    // Se quiser ordenar pela quantidade disponível, use:
-                    // livrosDisponiveis.sort(Comparator.comparingInt(LivroModel::getQuantidadeDisponivel));
 
                     StringBuilder mensagem = new StringBuilder("Livros Disponíveis:\n\n");
                     mensagem.append(String.format("%-5s %-30s %-20s\n", "ID", "Título", "Quantidade Disponível"));
@@ -181,6 +181,13 @@ public class Principal extends JFrame {
                 new DevolverEmprestimo(em);
             }
         });
+        listar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ListaEmprestimo(em);
+            }
+        }
+        );
 
     }
 
@@ -225,7 +232,7 @@ public class Principal extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new Principal(); // Chama o construtor sem argumentos
+                new Principal();
             }
         });
     }
