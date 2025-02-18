@@ -1,11 +1,18 @@
 package View;
 
+<<<<<<< HEAD
 import Controller.LivroController;
+=======
+import javax.swing.*;
+import Controller.LivroController;
+import Controller.UsuarioController;
+>>>>>>> origin/main
 import Model.LivroModel;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
+<<<<<<< HEAD
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
@@ -15,6 +22,13 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+=======
+import java.awt.event.*;
+import java.sql.Date;
+import java.sql.SQLException;
+
+import static java.lang.Integer.parseInt;
+>>>>>>> origin/main
 
 public class CadastroLivro extends JFrame {
     private JPanel CadLivro;
@@ -26,12 +40,22 @@ public class CadastroLivro extends JFrame {
     private JFormattedTextField formattedTextFieldDataPublicacao;
     private JTextField formattedTextFieldQtdeDisponivel;
     private JButton cadastrarButton;
+<<<<<<< HEAD
     private JButton cancelarButton;
     private LivroController livroController;
 
     public CadastroLivro(EntityManager em) {
         this.setTitle("Cadastro de Livro");
         this.setSize(450, 300);
+=======
+    private LivroController livroController;
+
+    public CadastroLivro(EntityManager em) {
+        this.livroController = livroController;
+        this.setTitle("Sistema de Gestão de Biblioteca - Cadastro de Livro");
+        this.setContentPane(cadLivro);
+        this.setSize(640, 480);
+>>>>>>> origin/main
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null); // Centraliza a janela
 
@@ -109,6 +133,7 @@ public class CadastroLivro extends JFrame {
 
         this.setVisible(true);
 
+<<<<<<< HEAD
         cadastrarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -120,9 +145,43 @@ public class CadastroLivro extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
+=======
+        livroController = new LivroController(em); // Inicialize o usuarioController com EntityManager
+
+
+        cadastrarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String titulo = formattedTextFieldTitulo.getText();
+                String tema = formattedTextFieldTema.getText();
+                String autor = formattedTextFieldAutor.getText();
+                String isbn = formattedTextFieldISBN.getText();
+                Date dataPublicacao = Date.valueOf(formattedTextFieldDataPublicacao.getText());
+                Integer quantidadeDisponivel = parseInt(formattedTextFieldQtdeDisponivel.getText());
+
+                // Crie e preencha o modelo de livro
+                LivroModel livro = new LivroModel();
+                livro.setTitulo(titulo);
+                livro.setTema(tema);
+                livro.setAutor(autor);
+                livro.setIsbn(isbn);
+                livro.setDataPublicacao(dataPublicacao);
+                livro.setQuantidadeDisponivel(parseInt(formattedTextFieldQtdeDisponivel.getText()));
+
+                try {
+                    // Salve o livro no banco de dados
+                    livroController.salvar(livro);
+                    JOptionPane.showMessageDialog(null, "Livro cadastrado:\nTitulo: " + titulo + "\nTema: " + tema + "\nAutor: " + autor + "\nISBN:" + isbn + "\nData de Publicacao:" + dataPublicacao+ "\nQuantidade Disponivel:"+ quantidadeDisponivel);
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Erro ao cadastrar o livro: " + ex.getMessage());
+                }
+                dispose(); // Fecha a janela de cadastro
+>>>>>>> origin/main
             }
         });
+
     }
+<<<<<<< HEAD
 
     private JFormattedTextField createFormattedDateField() {
         try {
@@ -195,4 +254,11 @@ public class CadastroLivro extends JFrame {
         EntityManager em = emf.createEntityManager();
         SwingUtilities.invokeLater(() -> new CadastroLivro(em));
     }
+=======
+    public static void main(String[] args) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("crudHibernatePU");
+        EntityManager em = emf.createEntityManager();
+        SwingUtilities.invokeLater(() -> new CadastrarEmprestimo(em));
+    }
+>>>>>>> origin/main
 }

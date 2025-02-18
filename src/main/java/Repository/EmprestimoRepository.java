@@ -18,6 +18,7 @@ public class EmprestimoRepository {
         em.getTransaction().begin();
         em.persist(emprestimo);
         em.getTransaction().commit();
+<<<<<<< HEAD
     }
 
     public EmprestimoModel buscarPorId(int id) {
@@ -35,6 +36,24 @@ public class EmprestimoRepository {
         em.getTransaction().commit();
     }
 
+=======
+    }
+
+    public EmprestimoModel buscarPorId(int id) {
+        return em.find(EmprestimoModel.class, id);
+    }
+
+    public List<EmprestimoModel> listar() {
+        return em.createQuery("FROM EmprestimoModel", EmprestimoModel.class).getResultList();
+    }
+
+    public void atualizar(EmprestimoModel emprestimo) {
+        em.getTransaction().begin();
+        em.merge(emprestimo);
+        em.getTransaction().commit();
+    }
+
+>>>>>>> origin/main
     // Método para atualizar devolução
     public void atualizarDevolucao(int id, boolean devolvido) {
         EmprestimoModel emprestimo = buscarPorId(id);

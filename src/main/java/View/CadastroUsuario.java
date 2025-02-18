@@ -7,6 +7,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 import javax.swing.*;
+<<<<<<< HEAD
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -23,6 +24,20 @@ public class CadastroUsuario extends JFrame {
     private JFormattedTextField formattedTextFieldTelefone;
     private JButton buttonCadastrar;
     private JButton cancelarButton;
+=======
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+
+public class CadastroUsuario extends JFrame {
+    private JPanel jpanelUsuario;
+    private JPanel panelUsuario;
+    private JTextField textFieldNome;
+    private JTextField textFieldEmail;
+    private JTextField textFieldTelefone;
+    private JTextField textFieldSexo;
+    private JButton buttonCadastrar;
+>>>>>>> origin/main
     private JLabel labelNome;
     private JLabel labelEmail;
     private JLabel labelTelefone;
@@ -30,6 +45,7 @@ public class CadastroUsuario extends JFrame {
     private UsuarioController usuarioController;
 
     public CadastroUsuario(EntityManager entityManager) {
+<<<<<<< HEAD
         this.setTitle("Cadastro de Usuario");
         this.setSize(400, 300);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -98,12 +114,22 @@ public class CadastroUsuario extends JFrame {
         this.setVisible(true);
 
         usuarioController = new UsuarioController(entityManager);
+=======
+        this.setTitle("Sistema de Gestão de Biblioteca");
+        this.setSize(400, 300);
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        this.setContentPane(jpanelUsuario);
+        this.setVisible(true);
+
+        usuarioController = new UsuarioController(entityManager); // Inicialize o usuarioController com EntityManager
+>>>>>>> origin/main
 
         buttonCadastrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String nome = textFieldNome.getText();
                 String email = textFieldEmail.getText();
+<<<<<<< HEAD
                 String sexo = textFieldSexo.getText();
                 String telefone = formattedTextFieldTelefone.getText();
 
@@ -114,10 +140,21 @@ public class CadastroUsuario extends JFrame {
                     JOptionPane.showMessageDialog(null, "Usuário cadastrado:\nNome: " + nome + "\nEmail: " + email + "\nTelefone: " + telefone);
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, "Erro ao salvar o usuário: " + ex.getMessage());
+=======
+                String telefone = textFieldTelefone.getText();
+                UsuarioModel usuario = new UsuarioModel(nome, email, telefone, textFieldSexo.getText()); // Inicialize o usuario
+
+                try {
+                    usuarioController.salvar(usuario); // Salve o usuário
+                    JOptionPane.showMessageDialog(null, "Usuário cadastrado:\nNome: " + nome + "\nEmail: " + email + "\nTelefone: " + telefone);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+>>>>>>> origin/main
                 }
                 dispose();
             }
         });
+<<<<<<< HEAD
 
         cancelarButton.addActionListener(new ActionListener() {
             @Override
@@ -136,6 +173,8 @@ public class CadastroUsuario extends JFrame {
             JOptionPane.showMessageDialog(null, "Erro ao configurar máscara de telefone: " + ex.getMessage());
             return new JFormattedTextField();
         }
+=======
+>>>>>>> origin/main
     }
 
     public static void main(String[] args) {

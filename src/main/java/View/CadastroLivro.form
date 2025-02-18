@@ -112,6 +112,7 @@
             </constraints>
             <properties/>
           </component>
+<<<<<<< HEAD
           <component id="636ad" class="javax.swing.JFormattedTextField" binding="formattedTextFieldDataPublicacao">
             <constraints>
               <grid row="5" column="7" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
@@ -121,6 +122,9 @@
             <properties/>
           </component>
           <component id="60da3" class="javax.swing.JLabel">
+=======
+          <component id="73ea2" class="javax.swing.JFormattedTextField" binding="formattedTextFieldQtdeDisponivel">
+>>>>>>> origin/main
             <constraints>
               <grid row="0" column="7" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -130,14 +134,21 @@
               <text value="Cadastro de Livro"/>
             </properties>
           </component>
+<<<<<<< HEAD
           <component id="769c7" class="javax.swing.JFormattedTextField" binding="formattedTextFieldQtdeDisponivel">
             <constraints>
               <grid row="6" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+=======
+          <component id="e8e33" class="javax.swing.JFormattedTextField" binding="formattedTextFieldDataPublicacao">
+            <constraints>
+              <grid row="5" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+>>>>>>> origin/main
                 <preferred-size width="150" height="-1"/>
               </grid>
             </constraints>
             <properties/>
           </component>
+<<<<<<< HEAD
           <component id="d76e1" class="javax.swing.JButton" binding="cancelarButton" default-binding="true">
             <constraints>
               <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
@@ -149,6 +160,8 @@
               <text value="Cancelar"/>
             </properties>
           </component>
+=======
+>>>>>>> origin/main
         </children>
       </grid>
     </children>

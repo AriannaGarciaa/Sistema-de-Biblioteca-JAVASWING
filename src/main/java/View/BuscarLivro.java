@@ -1,12 +1,18 @@
 package View;
 
 import Controller.LivroController;
+<<<<<<< HEAD
 import Model.EmprestimoModel;
+=======
+>>>>>>> origin/main
 import Model.LivroModel;
 import Repository.LivroRepository;
 import jakarta.persistence.EntityManager;
 
+<<<<<<< HEAD
 import java.awt.*;
+=======
+>>>>>>> origin/main
 import java.lang.String;
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
@@ -21,12 +27,19 @@ public class BuscarLivro extends JFrame {
     private JTable tableBuscaLivro;
     private JButton removerButton;
     private JScrollPane scrollPaneLIvro;
+<<<<<<< HEAD
     private JButton editarButton;
+=======
+>>>>>>> origin/main
 
     private LivroController livroController;
 
     public BuscarLivro(EntityManager em) {
+<<<<<<< HEAD
         this.setTitle("Lista de Livros");
+=======
+        this.setTitle("Sistema de Gestão de Biblioteca");
+>>>>>>> origin/main
         this.livroController = new LivroController(em);
         LivroModeloDeTabela livroModeloDeTabela = new LivroModeloDeTabela(em);
         tableBuscaLivro.setModel(livroModeloDeTabela);
@@ -35,7 +48,10 @@ public class BuscarLivro extends JFrame {
         this.setSize(640, 480);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setVisible(true);
+<<<<<<< HEAD
         panelPrincipal.setBackground(Color.cyan);
+=======
+>>>>>>> origin/main
 
         removerButton.addActionListener(new ActionListener() {
             @Override
@@ -44,10 +60,16 @@ public class BuscarLivro extends JFrame {
                 if (linhaSelecionada != -1) {
                     Long idLivroSelecionado = Long.parseLong(tableBuscaLivro.getValueAt(linhaSelecionada, 0).toString());
                     try {
+<<<<<<< HEAD
                         livroController.deletarLivro(idLivroSelecionado.intValue());
                         JOptionPane.showMessageDialog(null, "Livro Removido com sucesso!");
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null, "Erro ao remover o livro: " + ex.getMessage());
+=======
+                        JOptionPane.showMessageDialog(null, "Livro Removido" + livroController.deletarLivro(idLivroSelecionado.intValue()));
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+>>>>>>> origin/main
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "Selecione o registro que deseja remover");
@@ -75,6 +97,7 @@ public class BuscarLivro extends JFrame {
                 }
             }
         });
+<<<<<<< HEAD
         editarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -93,6 +116,8 @@ public class BuscarLivro extends JFrame {
                 }
             }
         });
+=======
+>>>>>>> origin/main
     }
 
     private static class LivroModeloDeTabela extends AbstractTableModel {

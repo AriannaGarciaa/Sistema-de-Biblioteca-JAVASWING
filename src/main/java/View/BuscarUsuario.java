@@ -1,7 +1,10 @@
 package View;
 
 import Controller.UsuarioController;
+<<<<<<< HEAD
 import Model.LivroModel;
+=======
+>>>>>>> origin/main
 import Model.UsuarioModel;
 import Repository.UsuarioRepository;
 import jakarta.persistence.EntityManager;
@@ -10,6 +13,11 @@ import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+<<<<<<< HEAD
+=======
+import java.sql.SQLException;
+import javax.swing.text.MaskFormatter;
+>>>>>>> origin/main
 import java.awt.*;
 import java.util.List;
 
@@ -20,12 +28,19 @@ public class BuscarUsuario extends JFrame {
     private JTable tableBuscaUsuario;
     private JScrollPane scrollPaneUsuario;
     private JButton removerButton;
+<<<<<<< HEAD
     private JButton editarButton;
+=======
+>>>>>>> origin/main
 
     private UsuarioController usuarioController;
 
     public BuscarUsuario(EntityManager em) {
+<<<<<<< HEAD
         this.setTitle("Lista de Usuarios");
+=======
+        this.setTitle("Sistema de Gestão de Biblioteca");
+>>>>>>> origin/main
         this.usuarioController = new UsuarioController(em);
         UsuarioModeloDeTabela usuarioModeloDeTabela = new UsuarioModeloDeTabela(em);
         tableBuscaUsuario.setModel(usuarioModeloDeTabela);
@@ -35,8 +50,11 @@ public class BuscarUsuario extends JFrame {
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setVisible(true);
 
+<<<<<<< HEAD
         panelPrincipal.setBackground(Color.cyan);
 
+=======
+>>>>>>> origin/main
         removerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -44,11 +62,17 @@ public class BuscarUsuario extends JFrame {
                 if (linhaSelecionada != -1) {
                     Long idUsuarioSelecionado = Long.parseLong(tableBuscaUsuario.getValueAt(linhaSelecionada, 0).toString());
                     try {
+<<<<<<< HEAD
                         usuarioController.deletarUsuario(idUsuarioSelecionado.intValue());
                         usuarioModeloDeTabela.atualizarTabela();
                         JOptionPane.showMessageDialog(null, "Usuário removido com sucesso!");
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null, "Erro ao remover usuário: " + ex.getMessage());
+=======
+                        JOptionPane.showMessageDialog(null, "Usuario Removido" + usuarioController.deletarUsuario(idUsuarioSelecionado.intValue()));
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+>>>>>>> origin/main
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "Selecione o registro que deseja remover");
@@ -77,6 +101,7 @@ public class BuscarUsuario extends JFrame {
                 }
             }
         });
+<<<<<<< HEAD
         editarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -95,6 +120,8 @@ public class BuscarUsuario extends JFrame {
                 }
             }
         });
+=======
+>>>>>>> origin/main
     }
 
     private static class UsuarioModeloDeTabela extends AbstractTableModel {

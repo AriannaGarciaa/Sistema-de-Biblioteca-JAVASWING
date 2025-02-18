@@ -7,13 +7,19 @@ import Repository.EmprestimoRepository;
 import Repository.UsuarioRepository;
 import Repository.LivroRepository;
 import jakarta.persistence.EntityManager;
+<<<<<<< HEAD
 import jakarta.persistence.EntityTransaction;
+=======
+>>>>>>> origin/main
 
 import java.util.Date;
 import java.util.List;
 
 public class EmprestimoController {
+<<<<<<< HEAD
     private EntityManager em;
+=======
+>>>>>>> origin/main
     private EmprestimoRepository emprestimoRepository;
     private UsuarioRepository usuarioRepository;
     private LivroRepository livroRepository;
@@ -22,20 +28,35 @@ public class EmprestimoController {
         this.emprestimoRepository = new EmprestimoRepository(entityManager);
         this.usuarioRepository = new UsuarioRepository(entityManager);
         this.livroRepository = new LivroRepository(entityManager);
+<<<<<<< HEAD
         this.em = entityManager;
+=======
+>>>>>>> origin/main
     }
 
     // Registrar um novo empréstimo
     public void salvar(EmprestimoModel emprestimo) {
         try {
+<<<<<<< HEAD
             UsuarioModel usuario = usuarioRepository.buscarPorId(emprestimo.getUsuario().getId());
             LivroModel livro = livroRepository.buscarPorId(emprestimo.getLivro().getId());
 
+=======
+            // Buscar o usuário e o livro pelo ID
+            UsuarioModel usuario = usuarioRepository.buscarPorId(emprestimo.getUsuario().getId());
+            LivroModel livro = livroRepository.buscarPorId(emprestimo.getLivro().getId());
+
+            // Verificar se o usuário e o livro existem
+>>>>>>> origin/main
             if (usuario != null && livro != null) {
                 emprestimo.setUsuario(usuario);
                 emprestimo.setLivro(livro);
                 emprestimo.setDataEmprestimo(new Date());
+<<<<<<< HEAD
                 emprestimo.setDevolvido(false);
+=======
+                emprestimo.setDevolvido(false); // Inicialmente, o livro não está devolvido
+>>>>>>> origin/main
 
                 // Definir a data de devolução (14 dias após o empréstimo)
                 Date dataDevolucao = new Date();
@@ -51,6 +72,7 @@ public class EmprestimoController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+<<<<<<< HEAD
     }
     public void atualizar(EmprestimoModel emprestimo) {
         EntityTransaction transaction = em.getTransaction();
@@ -64,7 +86,10 @@ public class EmprestimoController {
             }
             throw new RuntimeException("Erro ao atualizar empréstimo: " + e.getMessage());
         }
+=======
+>>>>>>> origin/main
     }
+
 
     // Listar todos os empréstimos
     public List<EmprestimoModel> listarEmprestimos() {
@@ -75,6 +100,7 @@ public class EmprestimoController {
     public void devolverEmprestimo(int emprestimoId) {
         EmprestimoModel emprestimo = emprestimoRepository.buscarPorId(emprestimoId);
         if (emprestimo != null) {
+<<<<<<< HEAD
             // Definir que o livro foi devolvido
             emprestimo.setDevolvido(true);
 
@@ -102,5 +128,14 @@ public class EmprestimoController {
             System.out.println("Empréstimo não encontrado com ID: " + id);
             return null;
         }
+=======
+            emprestimo.setDevolvido(true);
+            emprestimoRepository.salvar(emprestimo);
+            System.out.println("Livro devolvido com sucesso!");
+        } else {
+            System.out.println("Empréstimo não encontrado!");
+        }
+>>>>>>> origin/main
     }
+
 }

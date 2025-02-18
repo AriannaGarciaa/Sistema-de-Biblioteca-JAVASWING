@@ -13,8 +13,12 @@
           <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+<<<<<<< HEAD
           <font name="Baskerville Old Face" size="14" style="1"/>
           <text value="Listar e Buscar Usuario"/>
+=======
+          <text value="Buscar Usuario"/>
+>>>>>>> origin/main
         </properties>
       </component>
       <component id="b344a" class="javax.swing.JButton" binding="buttonBuscar">
@@ -22,8 +26,11 @@
           <grid row="1" column="2" row-span="2" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+<<<<<<< HEAD
           <background color="-12584410"/>
           <foreground color="-1"/>
+=======
+>>>>>>> origin/main
           <text value="Buscar"/>
         </properties>
       </component>
@@ -39,13 +46,18 @@
         <constraints>
           <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
+<<<<<<< HEAD
         <properties>
           <background color="-725254"/>
         </properties>
+=======
+        <properties/>
+>>>>>>> origin/main
         <border type="none"/>
         <children>
           <component id="1643a" class="javax.swing.JTable" binding="tableBuscaUsuario">
             <constraints/>
+<<<<<<< HEAD
             <properties>
               <background color="-3409200"/>
               <font name="Monospaced" size="12" style="0"/>
@@ -55,11 +67,23 @@
           </component>
         </children>
       </scrollpane>
+=======
+            <properties/>
+          </component>
+        </children>
+      </scrollpane>
+      <hspacer id="f35bb">
+        <constraints>
+          <grid row="4" column="1" row-span="1" col-span="2" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </hspacer>
+>>>>>>> origin/main
       <component id="8f726" class="javax.swing.JButton" binding="removerButton" default-binding="true">
         <constraints>
           <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+<<<<<<< HEAD
           <background color="-393205"/>
           <font name="Baskerville Old Face" size="14" style="0"/>
           <foreground color="-725254"/>
@@ -76,6 +100,11 @@
           <text value="Editar"/>
         </properties>
       </component>
+=======
+          <text value="Remover"/>
+        </properties>
+      </component>
+>>>>>>> origin/main
     </children>
   </grid>
 </form>
