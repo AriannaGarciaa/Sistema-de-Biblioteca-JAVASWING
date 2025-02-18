@@ -3,10 +3,9 @@ package Controller;
 import Model.LivroModel;
 import Repository.LivroRepository;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 
 import java.sql.SQLException;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 public class LivroController {
@@ -24,47 +23,34 @@ public class LivroController {
 
     public LivroModel buscarPorId(int id) {
         try {
-            LivroModel livro = livroRepository.buscarPorId(id);
-            if (livro != null) {
-                return livro;
-            } else {
-                System.out.println("Livro não encontrado!");
-                return null;
-            }
+            return livroRepository.buscarPorId(id);
         } catch (Exception e) {
             System.out.println("Erro ao buscar livro: " + e.getMessage());
             return null;
         }
     }
 
-    public void atualizarLivro(int id, String titulo, String tema, String autor, String isbn, Date dataPublicacao, int quantidadeDisponivel) {
+    public void atualizarLivro(LivroModel livro) {
+        EntityTransaction transaction = entityManager.getTransaction();
         try {
-            LivroModel livro = livroRepository.buscarPorId(id);
-            if (livro != null) {
-                livro.setTitulo(titulo);
-                livro.setTema(tema);
-                livro.setAutor(autor);
-                livro.setIsbn(isbn);
-                livro.setDataPublicacao(dataPublicacao);
-                livro.setQuantidadeDisponivel(quantidadeDisponivel);
-                livroRepository.atualizar(livro);
-                System.out.println("Livro atualizado com sucesso!");
-            } else {
-                System.out.println("Livro não encontrado!");
-            }
+            transaction.begin();
+            entityManager.merge(livro);
+            transaction.commit();
         } catch (Exception e) {
-            System.out.println("Erro ao atualizar livro: " + e.getMessage());
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Erro ao atualizar livro: " + e.getMessage());
         }
     }
 
-    // Método para atualizar a quantidade de exemplares disponíveis de um livro
     public void atualizarQuantidadeDisponivel(int id, int novaQuantidade) {
         try {
             LivroModel livro = livroRepository.buscarPorId(id);
             if (livro != null) {
                 if (novaQuantidade >= 0) {
                     livro.setQuantidadeDisponivel(novaQuantidade);
-                    livroRepository.atualizar(livro);  // Atualiza o livro no banco de dados
+                    atualizarLivro(livro);
                     System.out.println("Quantidade disponível do livro atualizada com sucesso!");
                 } else {
                     System.out.println("Erro: A quantidade disponível não pode ser negativa!");
@@ -76,24 +62,42 @@ public class LivroController {
             System.out.println("Erro ao atualizar quantidade disponível: " + e.getMessage());
         }
     }
-    public Object deletarLivro(int id) {
+
+    public void deletarLivro(int id) {
+        EntityTransaction transaction = entityManager.getTransaction();
         try {
             LivroModel livro = livroRepository.buscarPorId(id);
             if (livro != null) {
-                livroRepository.deletar(id);
+                transaction.begin();
+                entityManager.remove(livro);
+                transaction.commit();
                 System.out.println("Livro deletado com sucesso!");
             } else {
                 System.out.println("Livro não encontrado!");
             }
         } catch (Exception e) {
-            System.out.println("Erro ao deletar Livro: " + e.getMessage());
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            System.out.println("Erro ao deletar livro: " + e.getMessage());
         }
-        return null;
-    }
-    // Método para buscar livros disponíveis
-    public List<LivroModel> buscarLivrosDisponiveis() {
-        return livroRepository.buscarLivrosDisponiveis();
     }
 
+    public LivroModel buscarPorNome(String livroNome) {
+        try {
+            return livroRepository.buscarPorNome(livroNome);
+        } catch (Exception e) {
+            System.out.println("Erro ao buscar livro pelo nome: " + e.getMessage());
+            return null;
+        }
+    }
 
+    public List<LivroModel> listarTodos() {
+        try {
+            return livroRepository.listarTodos();
+        } catch (Exception e) {
+            System.out.println("Erro ao listar livros: " + e.getMessage());
+            return null;
+        }
+    }
 }

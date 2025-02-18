@@ -9,6 +9,7 @@ import jakarta.persistence.Persistence;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -20,12 +21,13 @@ public class ListaEmprestimo extends JFrame {
     private JTextField textFieldBusca;
     private JTable tableBuscaEmprestimo;
     private JScrollPane scrollPaneEmprestimo;
+    private JButton editarButton;
 
     private EmprestimoController emprestimoController;
     private EmprestimoModeloDeTabela emprestimoModeloDeTabela;
 
     public ListaEmprestimo(EntityManager em) {
-        this.setTitle("Sistema de Gestão de Biblioteca");
+        this.setTitle("Lista de Emprestimos");
         this.emprestimoController = new EmprestimoController(em);
         this.emprestimoModeloDeTabela = new EmprestimoModeloDeTabela(em);
 
@@ -35,6 +37,8 @@ public class ListaEmprestimo extends JFrame {
         this.setSize(640, 480);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setVisible(true);
+
+        panelPrincipal.setBackground(Color.cyan);
 
         buttonBuscar.addActionListener(new ActionListener() {
             @Override
@@ -57,7 +61,28 @@ public class ListaEmprestimo extends JFrame {
                 }
             }
         });
+
+        editarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int linhaSelecionada = tableBuscaEmprestimo.getSelectedRow();
+                if (linhaSelecionada == -1) {
+                    JOptionPane.showMessageDialog(null, "Selecione um empréstimo para editar!");
+                    return;
+                }
+                int idEmprestimo = (int) tableBuscaEmprestimo.getValueAt(linhaSelecionada, 0);
+                EmprestimoModel emprestimo = emprestimoController.buscarPorId(idEmprestimo);
+
+                if (emprestimo != null) {
+                    new EditarEmprestimo(em, emprestimo);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Erro ao carregar Tela de Edição de empréstimo!");
+                }
+            }
+        });
+
     }
+
 
     private static class EmprestimoModeloDeTabela extends AbstractTableModel {
         private final EmprestimoRepository emprestimoRepository;
@@ -108,7 +133,6 @@ public class ListaEmprestimo extends JFrame {
             }
         }
 
-        // Método para formatar as datas antes de exibir
         private String formatarData(java.util.Date data) {
             return (data != null) ? formatoData.format(data) : "N/A";
         }

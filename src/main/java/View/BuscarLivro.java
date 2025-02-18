@@ -1,10 +1,12 @@
 package View;
 
 import Controller.LivroController;
+import Model.EmprestimoModel;
 import Model.LivroModel;
 import Repository.LivroRepository;
 import jakarta.persistence.EntityManager;
 
+import java.awt.*;
 import java.lang.String;
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
@@ -19,11 +21,12 @@ public class BuscarLivro extends JFrame {
     private JTable tableBuscaLivro;
     private JButton removerButton;
     private JScrollPane scrollPaneLIvro;
+    private JButton editarButton;
 
     private LivroController livroController;
 
     public BuscarLivro(EntityManager em) {
-        this.setTitle("Sistema de Gestão de Biblioteca");
+        this.setTitle("Lista de Livros");
         this.livroController = new LivroController(em);
         LivroModeloDeTabela livroModeloDeTabela = new LivroModeloDeTabela(em);
         tableBuscaLivro.setModel(livroModeloDeTabela);
@@ -32,6 +35,7 @@ public class BuscarLivro extends JFrame {
         this.setSize(640, 480);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setVisible(true);
+        panelPrincipal.setBackground(Color.cyan);
 
         removerButton.addActionListener(new ActionListener() {
             @Override
@@ -40,9 +44,10 @@ public class BuscarLivro extends JFrame {
                 if (linhaSelecionada != -1) {
                     Long idLivroSelecionado = Long.parseLong(tableBuscaLivro.getValueAt(linhaSelecionada, 0).toString());
                     try {
-                        JOptionPane.showMessageDialog(null, "Livro Removido" + livroController.deletarLivro(idLivroSelecionado.intValue()));
+                        livroController.deletarLivro(idLivroSelecionado.intValue());
+                        JOptionPane.showMessageDialog(null, "Livro Removido com sucesso!");
                     } catch (Exception ex) {
-                        throw new RuntimeException(ex);
+                        JOptionPane.showMessageDialog(null, "Erro ao remover o livro: " + ex.getMessage());
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "Selecione o registro que deseja remover");
@@ -67,6 +72,24 @@ public class BuscarLivro extends JFrame {
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "Digite o ID do livro para buscar.");
+                }
+            }
+        });
+        editarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int linhaSelecionada = tableBuscaLivro.getSelectedRow();
+                if (linhaSelecionada == -1) {
+                    JOptionPane.showMessageDialog(null, "Selecione um livro para editar!");
+                    return;
+                }
+                int idLivro = (int) tableBuscaLivro.getValueAt(linhaSelecionada, 0);
+                LivroModel livro = livroController.buscarPorId(idLivro);
+
+                if (livro != null) {
+                    new EditarLivro(em, livro);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Erro ao carregar Tela de Edição de livro!");
                 }
             }
         });
